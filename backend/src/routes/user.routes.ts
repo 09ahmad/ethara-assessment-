@@ -50,7 +50,11 @@ userRouter.patch(
   authorizationMiddleware("ADMIN"),
   async (req: Request, res: Response) => {
     try {
-      const updated = await userService.updateRole(req.params.id as string, req.body.role);
+      const updated = await userService.updateRole(
+        req.params.id as string,
+        req.body.role,
+        req.user!.userId,
+      );
       res.status(200).json({
         success: true,
         message: "User role updated",
@@ -72,7 +76,11 @@ userRouter.patch(
   authorizationMiddleware("ADMIN"),
   async (req: Request, res: Response) => {
     try {
-      const updated = await userService.updateStatus(req.params.id as string, req.body.status);
+      const updated = await userService.updateStatus(
+        req.params.id as string,
+        req.body.status,
+        req.user!.userId,
+      );
       res.status(200).json({
         success: true,
         message: "User status updated",

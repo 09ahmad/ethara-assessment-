@@ -35,9 +35,31 @@ export const userService = {
     return user;
   },
 
-  async updateRole(id: string, role: string) {
+  async updateRole(id: string, role: string, actorUserId: string) {
     if (!Object.values(Role).includes(role as Role)) {
       throw { status: 400, message: "Invalid role" };
+    }
+
+    if (id === actorUserId && role !== "ADMIN") {
+      throw { status: 400, message: "You cannot remove your own admin role" };
+    }
+
+    const user = await prismaClient.user.findUnique({
+      where: { id },
+      select: { id: true, role: true },
+    });
+
+    if (!user) {
+      throw { status: 404, message: "User not found" };
+    }
+
+    if (user.role === "ADMIN" && role === "MEMBER") {
+      const totalAdmins = await prismaClient.user.count({
+        where: { role: "ADMIN", status: "ACTIVE" },
+      });
+      if (totalAdmins <= 1) {
+        throw { status: 400, message: "At least one active admin is required" };
+      }
     }
 
     return prismaClient.user.update({
@@ -52,9 +74,31 @@ export const userService = {
     });
   },
 
-  async updateStatus(id: string, status: string) {
+  async updateStatus(id: string, status: string, actorUserId: string) {
     if (!Object.values(Status).includes(status as Status)) {
       throw { status: 400, message: "Invalid status" };
+    }
+
+    if (id === actorUserId && status !== "ACTIVE") {
+      throw { status: 400, message: "You cannot deactivate your own account" };
+    }
+
+    const user = await prismaClient.user.findUnique({
+      where: { id },
+      select: { id: true, role: true },
+    });
+
+    if (!user) {
+      throw { status: 404, message: "User not found" };
+    }
+
+    if (user.role === "ADMIN" && status === "INACTIVE") {
+      const totalAdmins = await prismaClient.user.count({
+        where: { role: "ADMIN", status: "ACTIVE" },
+      });
+      if (totalAdmins <= 1) {
+        throw { status: 400, message: "At least one active admin is required" };
+      }
     }
 
     return prismaClient.user.update({

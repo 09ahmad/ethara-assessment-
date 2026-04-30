@@ -33,9 +33,9 @@ const authLimiter = rateLimit({
   },
 });
 
-apiRouter.use(generalLimiter);
-apiRouter.use("/register", authLimiter);
-apiRouter.use("/login", authLimiter);
+// apiRouter.use(generalLimiter);
+// apiRouter.use("/register", authLimiter);
+// apiRouter.use("/login", authLimiter);
 
 apiRouter.use(authRouter);
 apiRouter.use(userRouter);

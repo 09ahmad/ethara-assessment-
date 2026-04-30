@@ -6,7 +6,6 @@ export const registerSchema = z.object({
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
-    .regex(/^(?=.*[A-Z]).*$/, "Must contain at least one uppercase letter"),
 });
 
 export const loginSchema = z.object({

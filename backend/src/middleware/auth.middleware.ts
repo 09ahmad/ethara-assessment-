@@ -1,13 +1,14 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { Role } from "../config/generated/prisma/enums";
+import { prismaClient } from "../utils/generatedClient";
 
 interface JwtPayloadType {
   userId: string;
   role: Role;
 }
 
-export const authMiddleware = (
+export const authMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -45,9 +46,30 @@ export const authMiddleware = (
 
     const payload = decoded as JwtPayloadType;
 
+    const dbUser = await prismaClient.user.findUnique({
+      where: { id: payload.userId },
+      select: { id: true, role: true, status: true },
+    });
+
+    if (!dbUser) {
+      res.status(401).json({
+        success: false,
+        message: "User not found",
+      });
+      return;
+    }
+
+    if (dbUser.status !== "ACTIVE") {
+      res.status(403).json({
+        success: false,
+        message: "Account is inactive",
+      });
+      return;
+    }
+
     req.user = {
-      userId: payload.userId,
-      role: payload.role,
+      userId: dbUser.id,
+      role: dbUser.role as Role,
     };
 
     next();

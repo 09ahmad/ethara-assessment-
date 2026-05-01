@@ -1,14 +1,12 @@
 {
-  "name": "zorvyn-assign",
+  "name": "ethara-backend",
   "module": "index.ts",
   "type": "module",
   "private": true,
   "scripts": {
     "db": "cd src/config && bunx prisma migrate deploy && bunx prisma generate",
     "seed": "bun run ./src/config/seed.ts",
-    "dev": "bun run ./src/server.ts",
-    "test": "NODE_ENV=test vitest run",
-    "test:watch": "NODE_ENV=test vitest"
+    "dev": "bun run ./src/server.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",

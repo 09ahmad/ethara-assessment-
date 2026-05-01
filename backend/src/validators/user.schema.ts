@@ -5,12 +5,12 @@ export const registerSchema = z.object({
   email: z.string().email(),
   password: z
     .string()
-    .min(8, "Password must be at least 8 characters")
+    .min(5, "Password must be at least 8 characters")
 });
 
 export const loginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8),
+  password: z.string().min(5),
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;

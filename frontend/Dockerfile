@@ -3,11 +3,9 @@ FROM node:20-alpine AS base
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
-
 RUN npm install
 
 COPY . .
-
 RUN npm run build
 
 FROM node:20-alpine AS runner
@@ -18,6 +16,6 @@ RUN npm install -g serve
 
 COPY --from=base /app/dist ./dist
 
-EXPOSE 5173
+EXPOSE 8080
 
-CMD ["serve", "-s", "dist", "-l", "5173"]
+CMD ["sh", "-c", "serve -s dist -l ${PORT:-8080}"]

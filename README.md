@@ -19,7 +19,7 @@ A full-stack role-based task management application with authentication, project
 ┌─────────────────┐     ┌─────────────────┐
 │   Frontend      │────▶│   Backend       │
 │   (React+Vite)  │     │   (Express)     │
-│   :5173         │     │   :3000         │
+│   :8080         │     │   :3000         │
 └─────────────────┘     └────────┬────────┘
                                  │
                                  ▼

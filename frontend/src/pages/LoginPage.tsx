@@ -31,10 +31,20 @@ export default function LoginPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-[var(--color-tertiary)] p-6">
       <div className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
-        <h1 className="mb-2 text-3xl font-semibold text-[var(--color-primary)]">Welcome back</h1>
-        <p className="mb-6 text-sm text-[var(--color-secondary)]">Sign in to continue to your workspace.</p>
+        <h1 className="mb-2 text-3xl font-semibold text-[var(--color-primary)]">
+          Welcome back
+        </h1>
+        <p className="mb-6 text-sm text-[var(--color-secondary)]">
+          Sign in to continue to your workspace.
+        </p>
         <form className="space-y-4" onSubmit={onSubmit}>
-          <Input label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <Input
+            label="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
           <Input
             label="Password"
             type="password"
@@ -49,7 +59,10 @@ export default function LoginPage() {
         </form>
         <p className="mt-6 text-center text-sm text-slate-600">
           Do not have an account?{" "}
-          <Link className="font-semibold text-[var(--color-primary)] hover:underline" to="/signup">
+          <Link
+            className="font-semibold text-[var(--color-primary)] hover:underline"
+            to="/signup"
+          >
             Create one
           </Link>
         </p>
